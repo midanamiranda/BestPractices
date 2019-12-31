@@ -8,9 +8,12 @@ namespace Prestige.Biz
 {
     public class Actor
     {
+        // Constructors Section
+        
         public Actor()
         {
             Console.WriteLine("An actor is born.");
+            // this.CurrentAgency = new Agency();
         }
 
         public Actor(string actorName)
@@ -19,22 +22,42 @@ namespace Prestige.Biz
             ActorName = actorName;
         }
 
+        // Properties Section
+        
         private string actorName;
 
         public string ActorName
         {
             get { return actorName; }
-            set { actorName = value; }
+            set 
+            {
+                var formattedName = value?.Trim();
+                actorName = formattedName;
+            }
         }
-        
-        private string jobTitle;
 
-        public string JobTitle
+        public string JobTitle { get; set; }
+
+        public int ActorAge { get; set; }
+
+        public string ActorDescription { get; set; } = "Regular Actor";
+
+        private Agency currentAgency;
+
+        public Agency CurrentAgency
         {
-            get { return jobTitle; }
-            set { jobTitle = value; }
+            get
+            {
+                if (currentAgency == null)
+                    currentAgency = new Agency();
+                return currentAgency;
+            }
+            set { currentAgency = value; }
         }
-        
+
+
+        // Methods Section
+
         /// <summary>
         /// Will return title
         /// </summary>
@@ -43,6 +66,42 @@ namespace Prestige.Biz
         {
             JobTitle = "Actor";
             return JobTitle;
+        }
+
+        /// <summary>
+        /// Books actor and not date specified
+        /// </summary>
+        public string BookActor()
+        {
+            //string details = "Booking can change if actor starts trouble";
+            //return $"Actor {ActorName} is booked. {details}";
+            return BookActor(string.Empty);
+        }
+
+        /// <summary>
+        /// Books actor on specific date
+        /// </summary>
+        /// <param name="theDate"></param>
+        public string BookActor(string theDate)
+        {
+            string details = "Booking can change if actor starts trouble";
+            string theActor = $"Actor {ActorName} is booked";
+            if(theDate != string.Empty)
+            {
+                return $"{theActor} on {theDate}. {details}";
+            }
+            else
+                return $"{theActor}. {details}";
+        }
+
+        /// <summary>
+        /// Get the actors agency
+        /// </summary>
+        /// <returns></returns>
+        public string GetAgency()
+        {
+            // var currentAgency = new Agency();
+            return CurrentAgency.Name;
         }
     }
 }
